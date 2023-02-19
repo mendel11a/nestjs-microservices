@@ -1,11 +1,10 @@
-import { AbstractDocument } from '@app/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
-export class Product extends AbstractDocument {
+export class Product  {
   @Prop({ required: true })
   title: string;
   

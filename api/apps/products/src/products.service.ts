@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateProductInput } from './dto/create-product.input';
@@ -7,8 +7,9 @@ import { Product, ProductDocument } from './schema/product.schema';
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectModel('Product') private readonly productModel: Model<ProductDocument>,
+    @InjectModel('Product') private readonly productModel: Model<ProductDocument>
   ) { }
+  private readonly logger = new Logger(ProductsService.name)
 
   async create(createProductInput: CreateProductInput): Promise<Product> {
     const newProduct = new this.productModel(createProductInput);
@@ -42,5 +43,9 @@ export class ProductsService {
   async deleteProduct(productId: string): Promise<Product> {
     const deletedProduct= await this.productModel.findByIdAndDelete(productId)
     return deletedProduct
+  }
+
+  async updateProducts(data:any){
+    this.logger.log('Billing...', data);
   }
 }

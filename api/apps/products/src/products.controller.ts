@@ -8,6 +8,7 @@ import {
     Put,
     Delete,
 } from '@nestjs/common';
+import { Ctx, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
 import { CreateProductInput } from './dto/create-product.input';
 
 import { ProductsService } from './products.service';
@@ -72,15 +73,22 @@ export class ProductsController {
     }
 
     @Delete(':id')
-    async removeProduct(@Res() res,@Param('id') prodId: string) {
+    async removeProduct(@Res() res, @Param('id') prodId: string) {
         try {
-            const deletedProduct= await this.productsService.deleteProduct(prodId);
+            const deletedProduct = await this.productsService.deleteProduct(prodId);
             return res.status(200).json({
-                message:'Product deleted successfully',
+                message: 'Product deleted successfully',
                 deletedProduct
             })
         } catch (err) {
             return res.status(err.status).json(err.response)
         }
+    }
+
+    @MessagePattern('order_created')
+    async handleOrderCreated(@Payload() data: any, @Ctx() context: RmqContext) {
+        console.log("worked");
+        
+        this.productsService.updateProducts(data);
     }
 }

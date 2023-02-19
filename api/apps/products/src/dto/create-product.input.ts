@@ -1,20 +1,27 @@
-import { IsNotEmpty, IsNumber, IsString,IsBoolean } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateProductInput {
-  
-  @IsString()
-  user: string;
 
   @IsString()
-  payment: string;
+  title: string;
+
+  @IsString()
+  image: string;
+
+  @IsString()
+  description: string;
+
+  @IsString()
+  category: string;
+
+  @IsString()
+  brand: string;
 
   @IsNumber()
   @IsNotEmpty()
-  totalPrice: number;
+  price: number;
 
-  @IsBoolean()
-  isPaid: boolean;
-
-  @IsBoolean()
-  isDelivered: boolean;
+  @IsNumber()
+  @IsNotEmpty()
+  countInStock: number;
 }
