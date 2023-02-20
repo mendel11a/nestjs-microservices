@@ -15,10 +15,9 @@ export class OrdersService {
 
   async create(createOrderInput: CreateOrderInput): Promise<Order> {
     const newOrder = new this.orderModel(createOrderInput);
-    // const result = await newOrder.save();
-    console.log(newOrder);
-    this.productClient.send('order_created',newOrder).subscribe()
-    return newOrder;
+    const result = await newOrder.save();
+    this.productClient.send('order_created',result).subscribe()
+    return result;
   }
 
   async getorders(): Promise<Order[]> {

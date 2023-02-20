@@ -1,5 +1,5 @@
 import {
-  IsNotEmpty, IsNumber, IsString, IsBoolean, isArray,
+  IsNotEmpty, IsNumber, IsString, IsBoolean, IsDate,
   ValidateNested
 } from "class-validator";
 import { Types } from "mongoose";
@@ -27,4 +27,5 @@ export class CreateOrderInput {
 
   @IsBoolean()
   isDelivered: boolean;
+
 }
