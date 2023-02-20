@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { RmqContext } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateProductInput } from './dto/create-product.input';
@@ -9,7 +10,6 @@ export class ProductsService {
   constructor(
     @InjectModel('Product') private readonly productModel: Model<ProductDocument>
   ) { }
-  private readonly logger = new Logger(ProductsService.name)
 
   async create(createProductInput: CreateProductInput): Promise<Product> {
     const newProduct = new this.productModel(createProductInput);
@@ -45,7 +45,10 @@ export class ProductsService {
     return deletedProduct
   }
 
-  async updateProducts(data:any){
-    this.logger.log('Billing...', data);
+  async updateProducts(data:any,context: RmqContext){
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
+    console.log('data', data);
+    channel.ack(originalMsg);
   }
 }

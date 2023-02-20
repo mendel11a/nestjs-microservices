@@ -87,8 +87,6 @@ export class ProductsController {
 
     @MessagePattern('order_created')
     async handleOrderCreated(@Payload() data: any, @Ctx() context: RmqContext) {
-        console.log("worked");
-        
-        this.productsService.updateProducts(data);
+        this.productsService.updateProducts(data,context);
     }
 }
