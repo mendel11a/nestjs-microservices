@@ -9,42 +9,44 @@ import { Order, OrderDocument } from './schema/order.schema';
 @Injectable()
 export class OrdersService {
   constructor(
-    @InjectModel('Order') private readonly orderModel: Model<OrderDocument>, 
-    @Inject(PRODUCTS_SERVICE) private productClient: ClientProxy
-  ) { }
+    @InjectModel('Order') private readonly orderModel: Model<OrderDocument>,
+    @Inject(PRODUCTS_SERVICE) private productClient: ClientProxy,
+  ) {}
 
   async create(createOrderInput: CreateOrderInput): Promise<Order> {
     const newOrder = new this.orderModel(createOrderInput);
     const result = await newOrder.save();
-    this.productClient.send('order_created',result).subscribe()
+    this.productClient.send('order_created', result).subscribe();
     return result;
   }
 
   async getorders(): Promise<Order[]> {
-    const orders = await this.orderModel.find()
-    return orders
+    const orders = await this.orderModel.find();
+    return orders;
   }
 
   async getSingleorder(orderId: string): Promise<Order> {
-    const order = await this.orderModel.findById(orderId)
-    return order
+    const order = await this.orderModel.findById(orderId);
+    return order;
   }
 
   async updateorder(orderId: string, updateorderInput: {}): Promise<Order> {
     type ObjectMOngo = {
-      _doc?: Object
-    }
-    const order: ObjectMOngo = await this.orderModel.findById(orderId)
+      _doc?: Object;
+    };
+    const order: ObjectMOngo = await this.orderModel.findById(orderId);
     const neworder = { ...order._doc, ...updateorderInput };
 
-    const updatedorder = await this.orderModel.findByIdAndUpdate(orderId,
-      { $set: neworder }, { new: true }
-    )
-    return updatedorder
+    const updatedorder = await this.orderModel.findByIdAndUpdate(
+      orderId,
+      { $set: neworder },
+      { new: true },
+    );
+    return updatedorder;
   }
 
   async deleteorder(orderId: string): Promise<Order> {
-    const deletedorder = await this.orderModel.findByIdAndDelete(orderId)
-    return deletedorder
+    const deletedorder = await this.orderModel.findByIdAndDelete(orderId);
+    return deletedorder;
   }
 }

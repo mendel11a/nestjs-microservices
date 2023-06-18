@@ -1,8 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { RmqService } from '@app/common';
 import { ProductsModule } from './products.module';
-import { ValidationPipe } from '@nestjs/common';
-import { MicroserviceOptions } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {

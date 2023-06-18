@@ -7,7 +7,6 @@ import { DatabaseModule, RmqModule } from '@app/common';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
 import { PRODUCTS_SERVICE } from './constants/services';
-// import { OrdersRepository } from './orders.repository';
 
 
 @Module({
